@@ -15,9 +15,8 @@ class Prediction extends React.Component {
     };
   }
 
-  async callApi() {
+  async fetchPred() {
     const selectedMatch = this.props.selectedMatch;
-
     const res = await fetch(`http://127.0.0.1:8888/${selectedMatch.ID}`);
     const pred = await res.json();
 
@@ -29,24 +28,17 @@ class Prediction extends React.Component {
     });
   }
 
-  // componentDidMount() {
-  //   const selectedMatch = this.props.selectedMatch;
-  //   if (selectedMatch !== null) {
-  //     this.callApi();
-  //   }
-  // }
-
-  // componentDidUpdate() {
-  //   const selectedMatch = this.props.selectedMatch;
-  //   if (selectedMatch !== null) {
-  //     this.callApi();
-  //   }
-  // }
+  componentDidMount() {
+    const selectedMatch = this.props.selectedMatch;
+    if (selectedMatch !== null) {
+      this.fetchPred();
+    }
+  }
 
   render() {
     const selectedMatch = this.props.selectedMatch;
     if (selectedMatch !== null) {
-      this.callApi();
+      // this.callApi();
       // let rfPredProba = predictProba2020.find(
       //   (pred) => pred.MatchID === selectedMatch.ID
       // );

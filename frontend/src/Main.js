@@ -15,17 +15,11 @@ class Main extends React.Component {
   }
   setMatch(e) {
     this.setState({ selectedMatch: e });
-    // console.log(`selectedMatchID is ${e.ID}`);
   }
   render() {
     return (
       <>
-        <Title />
-        <Search
-          matches={this.state.matches}
-          // handleDate={this.handleDate}
-          setMatch={this.setMatch}
-        />
+        <Search matches={this.state.matches} setMatch={this.setMatch} />
         <Prediction selectedMatch={this.state.selectedMatch} />
       </>
     );
