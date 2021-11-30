@@ -89,7 +89,7 @@ def predict_with_randomforest(match_id):
     ]].values
     y_test = match["W/L"].values
 
-    params = {'n_estimators': [30, 50, 100, 200, 300],'max_depth': [2, 3, 4, 5, 6, 7, 8 , 9,10]}
+    params = {'n_estimators': [100, 200, 300],'max_depth': [3, 5, 8]}
     clf = GridSearchCV(RandomForestClassifier(random_state=1234), params, cv=5, n_jobs=-1, verbose=1)
     clf.fit(X_train,y_train)
 

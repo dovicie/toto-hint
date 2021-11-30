@@ -1,18 +1,52 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-// import predictProba2020 from "./predict_proba_2020.json";
-// import predictProbaPd2020 from "./predict_proba_poisson_distribution/json/2020.json";
-// import goalForPredictProba2020 from "./goal_for_predict_proba_poisson_distribution/json/2020/20010509.json";
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
 
 class Prediction extends React.Component {
   constructor(props) {
     super(props);
     // this.state = { predProba: null };
+    this.state = {
+      rfPredProba: [0, 0, 0],
+      pdPredProba: [0, 0, 0],
+      goalForPredProbaHome: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      goalForPredProbaAway: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    };
   }
+
+  async callApi() {
+    const selectedMatch = this.props.selectedMatch;
+
+    const res = await fetch(`http://127.0.0.1:8888/${selectedMatch.ID}`);
+    const pred = await res.json();
+
+    this.setState({
+      rfPredProba: pred["randomforest"],
+      pdPredProba: pred["poisson"],
+      goalForPredProbaHome: pred["goalfor"]["home"],
+      goalForPredProbaAway: pred["goalfor"]["away"],
+    });
+  }
+
+  // componentDidMount() {
+  //   const selectedMatch = this.props.selectedMatch;
+  //   if (selectedMatch !== null) {
+  //     this.callApi();
+  //   }
+  // }
+
+  // componentDidUpdate() {
+  //   const selectedMatch = this.props.selectedMatch;
+  //   if (selectedMatch !== null) {
+  //     this.callApi();
+  //   }
+  // }
 
   render() {
     const selectedMatch = this.props.selectedMatch;
     if (selectedMatch !== null) {
+      this.callApi();
       // let rfPredProba = predictProba2020.find(
       //   (pred) => pred.MatchID === selectedMatch.ID
       // );
@@ -38,34 +72,23 @@ class Prediction extends React.Component {
       //       1000
       //   ) / 1000,
       // ];
-
-      const rfPredProba = [0.2, 0.5, 0.3];
-
-      // var pdPredProba
-      // console.log(selectedMatch.ID)
-      // fetch(`http://127.0.0.1:8888/${selectedMatch.ID}`)
-      //   .then((res) => res.json())
-      //   .then(
-      //     (result) => {
-      //       // console.log(result);
-      //       pdPredProba = result
-      //       console.log(pdPredProba)
-      //     },
-      //     // 補足：コンポーネント内のバグによる例外を隠蔽しないためにも
-      //     // catch()ブロックの代わりにここでエラーハンドリングすることが重要です
-      //     (error) => {
-      //       console.log(error);
-      //     }
-      //   );
+      // const rfPredProba = [0.2, 0.5, 0.3];
+      const rfPredProba = this.state.rfPredProba;
 
       // const pdPredProba = predictProbaPd2020[selectedMatch.ID];
-      const pdPredProba = [0.2, 0.4, 0.4];
+      const pdPredProba = this.state.pdPredProba;
 
       // const goalForPredProbaHome = goalForPredictProba2020["gamba-osaka"];
-      const goalForPredProbaHome = [0.3, 0.2, 0.2, 0.1, 0.05, 0.05, 0, 0, 0, 0];
+      // const goalForPredProbaHome = [
+      //   0.3, 0.2, 0.2, 0.1, 0.05, 0.03, 0.01, 0.01, 0, 0,
+      // ];
+      const goalForPredProbaHome = this.state.goalForPredProbaHome;
       // const goalForPredProbaAway =
       // goalForPredictProba2020["yokohama-fa-marinos"];
-      const goalForPredProbaAway = [0.2, 0.3, 0.2, 0.1, 0.05, 0.05, 0, 0, 0, 0];
+      // const goalForPredProbaAway = [
+      //   0.2, 0.25, 0.25, 0.1, 0.05, 0.05, 0, 0, 0, 0,
+      // ];
+      const goalForPredProbaAway = this.state.goalForPredProbaAway;
 
       const barChartData = {
         labels: ["Poisson distribution", "Random Forest"],
@@ -105,11 +128,10 @@ class Prediction extends React.Component {
       };
 
       const data = {
-        labels: ["1", "2", "3", "4", "5", "6", "7", "8"],
+        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         datasets: [
           {
             label: `${selectedMatch.Home}'s goals for`,
-            // data: [0.2, 0.3, 0.2, 0.1, 0.05, 0.03, 0.02, 0],
             data: Object.keys(goalForPredProbaHome).map(function (key) {
               return goalForPredProbaHome[key];
             }),

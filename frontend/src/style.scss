@@ -1,0 +1,27 @@
+.App {
+  width: 100%;
+  max-width: 768px;
+  margin: auto;
+  .search {
+    .match-select-container {
+      margin: 1rem 0;
+      display: flex;
+      .year-select {
+        flex-basis: 15%;
+      }
+      .date-select {
+        flex-basis: 20%;
+      }
+      .match-select {
+        flex-basis: 65%;
+      }
+    }
+    .button-wrap {
+      text-align: center;
+      margin: 1rem 0;
+      button {
+        width: 10rem;
+      }
+    }
+  }
+}
