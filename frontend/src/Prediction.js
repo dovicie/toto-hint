@@ -59,12 +59,42 @@ class Prediction extends React.Component {
       this.fetchPred();
     }
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const selectedMatch = this.props.selectedMatch;
     if (
       (selectedMatch !== null) &
       (selectedMatch !== prevProps.selectedMatch)
     ) {
+      this.setState({
+        pred: {
+          rfPredProba: { 0: 0, 1: 0, 2: 0 },
+          pdPredProba: { 0: 0, 1: 0, 2: 0 },
+          goalForPredProbaHome: {
+            0: 0,
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+          },
+          goalForPredProbaAway: {
+            0: 0,
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+          },
+        },
+      });
       this.fetchPred();
     }
   }
@@ -134,18 +164,6 @@ class Prediction extends React.Component {
         ],
       };
 
-      const options = {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      };
-
       return (
         <div className="prediction">
           <h2>Prediction</h2>
@@ -158,7 +176,7 @@ class Prediction extends React.Component {
           <Bar data={barChartData} options={barChartOptions} />
 
           <h3>Score prediction</h3>
-          <Bar data={data} options={options} />
+          <Bar data={data}  />
         </div>
       );
     } else {
