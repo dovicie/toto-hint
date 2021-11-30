@@ -6,12 +6,35 @@ Chart.register(...registerables);
 class Prediction extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = { predProba: null };
     this.state = {
-      rfPredProba: [0, 0, 0],
-      pdPredProba: [0, 0, 0],
-      goalForPredProbaHome: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      goalForPredProbaAway: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      pred: {
+        rfPredProba: { 0: 0, 1: 0, 2: 0 },
+        pdPredProba: { 0: 0, 1: 0, 2: 0 },
+        goalForPredProbaHome: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0,
+          7: 0,
+          8: 0,
+          9: 0,
+        },
+        goalForPredProbaAway: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+          6: 0,
+          7: 0,
+          8: 0,
+          9: 0,
+        },
+      },
     };
   }
 
@@ -21,10 +44,12 @@ class Prediction extends React.Component {
     const pred = await res.json();
 
     this.setState({
-      rfPredProba: pred["randomforest"],
-      pdPredProba: pred["poisson"],
-      goalForPredProbaHome: pred["goalfor"]["home"],
-      goalForPredProbaAway: pred["goalfor"]["away"],
+      pred: {
+        rfPredProba: pred["randomforest"],
+        pdPredProba: pred["poisson"],
+        goalForPredProbaHome: pred["goalfor"]["home"],
+        goalForPredProbaAway: pred["goalfor"]["away"],
+      },
     });
   }
 
@@ -34,53 +59,23 @@ class Prediction extends React.Component {
       this.fetchPred();
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    const selectedMatch = this.props.selectedMatch;
+    if (
+      (selectedMatch !== null) &
+      (selectedMatch !== prevProps.selectedMatch)
+    ) {
+      this.fetchPred();
+    }
+  }
 
   render() {
     const selectedMatch = this.props.selectedMatch;
     if (selectedMatch !== null) {
-      // this.callApi();
-      // let rfPredProba = predictProba2020.find(
-      //   (pred) => pred.MatchID === selectedMatch.ID
-      // );
-      // rfPredProba = [
-      //   Number.parseFloat(rfPredProba[0]),
-      //   Number.parseFloat(rfPredProba[1]),
-      //   Number.parseFloat(rfPredProba[2]),
-      // ];
-      // rfPredProba = [
-      //   Math.floor(
-      //     (rfPredProba[0] /
-      //       (rfPredProba[0] + rfPredProba[1] + rfPredProba[2])) *
-      //       1000
-      //   ) / 1000,
-      //   Math.floor(
-      //     (rfPredProba[1] /
-      //       (rfPredProba[0] + rfPredProba[1] + rfPredProba[2])) *
-      //       1000
-      //   ) / 1000,
-      //   Math.floor(
-      //     (rfPredProba[2] /
-      //       (rfPredProba[0] + rfPredProba[1] + rfPredProba[2])) *
-      //       1000
-      //   ) / 1000,
-      // ];
-      // const rfPredProba = [0.2, 0.5, 0.3];
-      const rfPredProba = this.state.rfPredProba;
-
-      // const pdPredProba = predictProbaPd2020[selectedMatch.ID];
-      const pdPredProba = this.state.pdPredProba;
-
-      // const goalForPredProbaHome = goalForPredictProba2020["gamba-osaka"];
-      // const goalForPredProbaHome = [
-      //   0.3, 0.2, 0.2, 0.1, 0.05, 0.03, 0.01, 0.01, 0, 0,
-      // ];
-      const goalForPredProbaHome = this.state.goalForPredProbaHome;
-      // const goalForPredProbaAway =
-      // goalForPredictProba2020["yokohama-fa-marinos"];
-      // const goalForPredProbaAway = [
-      //   0.2, 0.25, 0.25, 0.1, 0.05, 0.05, 0, 0, 0, 0,
-      // ];
-      const goalForPredProbaAway = this.state.goalForPredProbaAway;
+      const rfPredProba = this.state.pred.rfPredProba;
+      const pdPredProba = this.state.pred.pdPredProba;
+      const goalForPredProbaHome = this.state.pred.goalForPredProbaHome;
+      const goalForPredProbaAway = this.state.pred.goalForPredProbaAway;
 
       const barChartData = {
         labels: ["Poisson distribution", "Random Forest"],
