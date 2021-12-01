@@ -170,8 +170,8 @@ class Prediction extends React.Component {
           <h3>勝敗予測</h3>
           <p>
             {new Date(selectedMatch.Date).getFullYear()}年{" "}
-            {new Date(selectedMatch.Date).getMonth()}月
-            {new Date(selectedMatch.Date).getDay()}日 {selectedMatch.Sec}節{" "}
+            {new Date(selectedMatch.Date).getMonth() + 1}月
+            {new Date(selectedMatch.Date).getDate()}日 {selectedMatch.Sec}節{" "}
             {selectedMatch.Home} - {selectedMatch.Away}
           </p>
 

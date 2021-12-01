@@ -8,7 +8,6 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // matches: matchData2020,
       matches: matchData,
       selectedMatch: null,
     };
