@@ -108,20 +108,20 @@ class Prediction extends React.Component {
       const goalForPredProbaAway = this.state.pred.goalForPredProbaAway;
 
       const barChartData = {
-        labels: ["Poisson distribution", "Random Forest"],
+        labels: ["ポアソン分布", "ランダムフォレスト"],
         datasets: [
           {
-            label: `"${selectedMatch.Home}" wins`,
+            label: `${selectedMatch.Home}の勝利`,
             data: [pdPredProba[1], rfPredProba[1]],
             backgroundColor: "rgb(255, 99, 132)",
           },
           {
-            label: "draw",
+            label: "引き分け",
             data: [pdPredProba[0], rfPredProba[0]],
             backgroundColor: "rgb(200, 200, 200)",
           },
           {
-            label: `"${selectedMatch.Away}" wins`,
+            label: `${selectedMatch.Away}の勝利`,
             data: [pdPredProba[2], rfPredProba[2]],
             backgroundColor: "rgb(54, 162, 235)",
           },
@@ -148,14 +148,14 @@ class Prediction extends React.Component {
         labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         datasets: [
           {
-            label: `${selectedMatch.Home}'s goals for`,
+            label: `${selectedMatch.Home}の得点数`,
             data: Object.keys(goalForPredProbaHome).map(function (key) {
               return goalForPredProbaHome[key];
             }),
             backgroundColor: "rgb(255, 99, 132)",
           },
           {
-            label: `${selectedMatch.Away}'s goals for`,
+            label: `${selectedMatch.Away}の得点数`,
             data: Object.keys(goalForPredProbaAway).map(function (key) {
               return goalForPredProbaAway[key];
             }),
@@ -166,23 +166,27 @@ class Prediction extends React.Component {
 
       return (
         <div className="prediction">
-          <h2>Prediction</h2>
+          <h2>予測結果</h2>
+          <h3>勝敗予測</h3>
           <p>
-            {selectedMatch.Date} Sec.{selectedMatch.Sec}
+            {new Date(selectedMatch.Date).getFullYear()}年{" "}
+            {new Date(selectedMatch.Date).getMonth()}月
+            {new Date(selectedMatch.Date).getDay()}日 {selectedMatch.Sec}節{" "}
+            {selectedMatch.Home} - {selectedMatch.Away}
           </p>
-          <p>
-            {selectedMatch.Home} vs {selectedMatch.Away}
-          </p>
+
           <Bar data={barChartData} options={barChartOptions} />
 
-          <h3>Score prediction</h3>
-          <Bar data={data}  />
+          <h3>得点数予測</h3>
+          <Bar data={data} />
         </div>
       );
     } else {
-      return <div> Select a match! </div>;
+      return <div> 対戦カードを選択してください!! </div>;
     }
   }
 }
 
 export default Prediction;
+
+// new Date(match.Date).getFullYear().toString()

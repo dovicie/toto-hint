@@ -29,6 +29,8 @@ class Search extends React.Component {
 
   render() {
     const yearOptions = [
+      { value: "2013", label: "2013" },
+      { value: "2014", label: "2014" },
       { value: "2015", label: "2015" },
       { value: "2016", label: "2016" },
       { value: "2017", label: "2017" },
@@ -60,35 +62,35 @@ class Search extends React.Component {
       .map((match) => {
         matchOptions.push({
           value: match,
-          label: `Sec.${match.Sec} ${match.Home} - ${match.Away}`,
+          label: `${match.Sec}節 ${match.Home} - ${match.Away}`,
         });
       });
 
     return (
       <div className="search">
-        <h2>Select a match card</h2>
+        <h2>対戦カード選択</h2>
         <div className="match-select-container">
           <Select
             className="year-select"
             options={yearOptions}
             onChange={this.handleYearChange}
-            placeholder="Year"
+            placeholder="年度"
           />
           <Select
             className="date-select"
             options={dateOptions}
             onChange={this.handleDateChange}
-            placeholder="Date"
+            placeholder="開催日"
           />
           <Select
             className="match-select"
             options={matchOptions}
             onChange={this.handleMatchChange}
-            placeholder="Match Card"
+            placeholder="対戦カード"
           />
         </div>
         <div className="button-wrap">
-          <button onClick={this.handleSetMatch}>Predict</button>
+          <button onClick={this.handleSetMatch}>予測</button>
         </div>
       </div>
     );

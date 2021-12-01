@@ -2,13 +2,14 @@ import React from "react";
 import Title from "./Title";
 import Search from "./Search";
 import Prediction from "./Prediction";
-import matchData2020 from "./match_data_2020.json";
+import matchData from "./match_data.json";
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      matches: matchData2020,
+      // matches: matchData2020,
+      matches: matchData,
       selectedMatch: null,
     };
     this.setMatch = this.setMatch.bind(this);
