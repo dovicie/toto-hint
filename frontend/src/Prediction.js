@@ -35,7 +35,56 @@ class Prediction extends React.Component {
           9: 0,
         },
       },
+      color: {
+        home: null,
+        away: null,
+      },
     };
+  }
+
+  getColor() {
+    const colorDict = {
+      1: "#B71A3F",
+      2: "#FEDF00",
+      3: "#E6002C",
+      4: "#026A38",
+      5: "#003084",
+      7: "#FF8708",
+      8: "#D70D18",
+      9: "#02589E",
+      10: "#50308F",
+      11: "#FFF100",
+      12: "#61B324",
+      13: "#7399D0",
+      14: "#CA0403",
+      18: "#980422",
+      20: "#DA005C",
+      21: "#23B6FE",
+      22: "#052883",
+      23: "#00205A",
+      24: "#832178",
+      27: "#ED6D00",
+      28: "#035FB6",
+      29: "#004197",
+      31: "#150A8C",
+      33: "#ED7FB4",
+      34: "#00A5F9",
+      36: "#09318F",
+      46: "#037A48",
+      47: "#F39800",
+      54: "#FCC901",
+      78: "#EA5303",
+    };
+    const selectedMatch = this.props.selectedMatch;
+    const homeID = selectedMatch.HomeID;
+    const awayID = selectedMatch.AwayID;
+
+    this.setState({
+      color: {
+        home: colorDict[homeID],
+        away: colorDict[awayID],
+      },
+    });
   }
 
   async fetchPred() {
@@ -57,6 +106,7 @@ class Prediction extends React.Component {
     const selectedMatch = this.props.selectedMatch;
     if (selectedMatch !== null) {
       this.fetchPred();
+      this.getColor();
     }
   }
   componentDidUpdate(prevProps) {
@@ -96,6 +146,7 @@ class Prediction extends React.Component {
         },
       });
       this.fetchPred();
+      this.getColor();
     }
   }
 
@@ -107,13 +158,16 @@ class Prediction extends React.Component {
       const goalForPredProbaHome = this.state.pred.goalForPredProbaHome;
       const goalForPredProbaAway = this.state.pred.goalForPredProbaAway;
 
+      const homeColor = this.state.color.home;
+      const awayColor = this.state.color.away;
+
       const barChartData = {
         labels: ["ポアソン分布", "ランダムフォレスト"],
         datasets: [
           {
             label: `${selectedMatch.Home}の勝利`,
             data: [pdPredProba[1], rfPredProba[1]],
-            backgroundColor: "rgb(255, 99, 132)",
+            backgroundColor: homeColor,
           },
           {
             label: "引き分け",
@@ -123,7 +177,7 @@ class Prediction extends React.Component {
           {
             label: `${selectedMatch.Away}の勝利`,
             data: [pdPredProba[2], rfPredProba[2]],
-            backgroundColor: "rgb(54, 162, 235)",
+            backgroundColor: awayColor,
           },
         ],
       };
@@ -152,14 +206,14 @@ class Prediction extends React.Component {
             data: Object.keys(goalForPredProbaHome).map(function (key) {
               return goalForPredProbaHome[key];
             }),
-            backgroundColor: "rgb(255, 99, 132)",
+            backgroundColor: homeColor,
           },
           {
             label: `${selectedMatch.Away}の得点数`,
             data: Object.keys(goalForPredProbaAway).map(function (key) {
               return goalForPredProbaAway[key];
             }),
-            backgroundColor: "rgb(54, 162, 235)",
+            backgroundColor: awayColor,
           },
         ],
       };
@@ -167,13 +221,13 @@ class Prediction extends React.Component {
       return (
         <div className="prediction">
           <h2>予測結果</h2>
-          <h3>勝敗予測</h3>
-          <p>
+          <p className="match-card">
             {new Date(selectedMatch.Date).getFullYear()}年{" "}
             {new Date(selectedMatch.Date).getMonth() + 1}月
             {new Date(selectedMatch.Date).getDate()}日 {selectedMatch.Sec}節{" "}
             {selectedMatch.Home} - {selectedMatch.Away}
           </p>
+          <h3>勝敗予測</h3>
 
           <Bar data={barChartData} options={barChartOptions} />
 
@@ -182,7 +236,12 @@ class Prediction extends React.Component {
         </div>
       );
     } else {
-      return <div> 対戦カードを選択してください!! </div>;
+      return (
+        <div className="prediction">
+          <h2>予測結果</h2>
+          <p>対戦カードを選択してください!!</p>
+        </div>
+      );
     }
   }
 }
