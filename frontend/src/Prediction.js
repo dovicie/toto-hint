@@ -161,7 +161,7 @@ class Prediction extends React.Component {
       const homeColor = this.state.color.home;
       const awayColor = this.state.color.away;
 
-      const barChartData = {
+      const wlPredChartData = {
         labels: ["ポアソン分布", "ランダムフォレスト"],
         datasets: [
           {
@@ -182,7 +182,7 @@ class Prediction extends React.Component {
         ],
       };
 
-      const barChartOptions = {
+      const wlPredChartOptions = {
         indexAxis: "y",
         scales: {
           y: {
@@ -198,7 +198,7 @@ class Prediction extends React.Component {
         },
       };
 
-      const data = {
+      const goalForPredData = {
         labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         datasets: [
           {
@@ -229,10 +229,10 @@ class Prediction extends React.Component {
           </p>
           <h3>勝敗予測</h3>
 
-          <Bar data={barChartData} options={barChartOptions} />
+          <Bar data={wlPredChartData} options={wlPredChartOptions} />
 
           <h3>得点数予測</h3>
-          <Bar data={data} />
+          <Bar data={goalForPredData} />
         </div>
       );
     } else {
