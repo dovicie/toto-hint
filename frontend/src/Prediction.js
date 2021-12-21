@@ -194,6 +194,7 @@ class Prediction extends React.Component {
           },
           x: {
             stacked: true,
+            max: '1.0'
           },
         },
       };
@@ -202,14 +203,14 @@ class Prediction extends React.Component {
         labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         datasets: [
           {
-            label: `${selectedMatch.Home}の得点数`,
+            label: `${selectedMatch.Home}`,
             data: Object.keys(goalForPredProbaHome).map(function (key) {
               return goalForPredProbaHome[key];
             }),
             backgroundColor: homeColor,
           },
           {
-            label: `${selectedMatch.Away}の得点数`,
+            label: `${selectedMatch.Away}`,
             data: Object.keys(goalForPredProbaAway).map(function (key) {
               return goalForPredProbaAway[key];
             }),

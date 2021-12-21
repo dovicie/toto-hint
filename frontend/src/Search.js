@@ -19,7 +19,6 @@ class Search extends React.Component {
     this.setState({ selectedMonth: selectedOption.value });
   };
 
-
   handleMatchChange = (selectedOption) => {
     this.setState({ selectedMatch: selectedOption.value });
   };
@@ -55,9 +54,9 @@ class Search extends React.Component {
       { value: 12, label: "12月" },
     ];
 
-    const matchOptions = [];
+    // const matchOptions = [];
     const dayOfWeekStr = ["日", "月", "火", "水", "木", "金", "土"];
-    this.props.matches
+    const matchOptions = this.props.matches
       .filter(
         (match) =>
           (new Date(match.Date).getFullYear() === this.state.selectedYear) &
@@ -67,11 +66,12 @@ class Search extends React.Component {
         const date = new Date(match.Date).getDate();
         const dayOfWeek = dayOfWeekStr[new Date(match.Date).getDay()];
 
-        matchOptions.push({
+        return {
           value: match,
-          label: `${date}日(${dayOfWeek}) ${match.Sec}節 ${match.Home} - ${match.Away}`,
-        });
+          label: `${date}日(${dayOfWeek}) ${match.Sec}節 ${match.Home} - ${match.Away} `,
+        };
       });
+
     return (
       <div className="search">
         <h2>対戦カード選択</h2>

@@ -1,5 +1,4 @@
 import React from "react";
-import Title from "./Title";
 import Search from "./Search";
 import Prediction from "./Prediction";
 import matchData from "./match_data.json";
