@@ -5,10 +5,6 @@ from predict import predict_with_randomforest,predict_with_poisson,predict_goalf
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
-def hello_world():
-    return jsonify({"language": "python"})
-
 
 @app.route('/<int:match_id>')
 def poisson(match_id):
