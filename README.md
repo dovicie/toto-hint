@@ -5,9 +5,8 @@
 
 <!-- ## DEMO -->
 
-https://user-images.githubusercontent.com/65605945/147013908-86a005e9-c385-4300-8cc1-0ad3e8816f9b.mov
+https://user-images.githubusercontent.com/65605945/147016596-1c93f42e-0087-4d46-937e-9c45e648ded0.mov
 
-![2019/04/14_iwata-shimizu](https://user-images.githubusercontent.com/65605945/147015804-19304f1b-b33e-4b44-b64e-96c1158f7917.png)
 
 ## Features
 
