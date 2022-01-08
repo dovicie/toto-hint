@@ -2,8 +2,8 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from predict import predict_with_randomforest,predict_with_poisson,predict_goalfor_with_poisson
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+# CORS(app)
 
 
 @app.route('/<int:match_id>')
